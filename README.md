@@ -1,6 +1,6 @@
 # 🏢 ERP SupplyNet – Frontend
 
-Este repositorio contiene el **frontend de un sistema ERP** para la gestión de suministros, desarrollado en **React + Vite**. El sistema permite a medianas y grandes empresas visualizar proveedores cercanos,comprar y vender productos, generar órdenes de compra, emitir facturas y dar seguimiento a la localización de sus compras.
+Este repositorio contiene el **frontend de un sistema ERP** para la gestión de suministros, desarrollado en **React + Vite**. El sistema permite a medianas y grandes empresas visualizar proveedores cercanos, comprar y vender productos, generar órdenes de compra, emitir facturas y dar seguimiento a la localización de sus compras.
 
 ---
 
