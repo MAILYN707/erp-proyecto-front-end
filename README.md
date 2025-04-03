@@ -42,4 +42,4 @@ npm run dev
 ---
 ## 👨‍💻 Desarrolladores
 
-    Mailyn Delgado – Frontend/Coordinador de Programación
+    Mailyn Delgado – Frontend/ @MAILYN707
