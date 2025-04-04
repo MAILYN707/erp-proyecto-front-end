@@ -2,7 +2,9 @@ import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './components/UserContext';
 //import { ProtectedRoute } from './components/routes/ProtectedRoute';
 //import { PublicRoute } from './components/routes/PublicRoute';
-import { Home } from './pages';
+import { Home, Productos, Proveedores, SobreNosotros, Contacto} from './pages';
+import { Layout } from './components/Layout';
+
 
 function App() {
 
@@ -11,8 +13,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Rutas publicas */}
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Layout />} >
+            <Route index element={<Home />} />
+            <Route path="/productos" element={<Productos />} />
+            <Route path="/proveedores" element={<Proveedores />} />
+            <Route path="/sobre-nosotros" element={<SobreNosotros />} />
+            <Route path="/contactanos" element={<Contacto />} />
+          </Route>
+
+
+
 
           {/* Rutas protegidas */}
         </Routes>
