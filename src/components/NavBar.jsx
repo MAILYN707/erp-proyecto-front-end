@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 import '../styles/navbar.css';
 
 export function NavBar() {
@@ -18,7 +19,7 @@ export function NavBar() {
             </nav>
 
             <div className="navbar-right">
-                <FaSearch />
+                <FaLocationDot />
                 <FaShoppingCart />
                 <FaUser />
             </div>
