@@ -1,0 +1,48 @@
+.category-sidebar {
+    width: 200px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ccc;
+    height: auto;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  
+  .category-title {
+    background-color: #345769;
+    color: white;
+    font-weight: bold;
+    padding: 0.6rem;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    cursor: default;
+  }
+  
+  .category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .category-item {
+    padding: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #345769;
+    border-left: 3px solid transparent;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .category-item:hover {
+    background-color: #e6ecf1;
+    border-left: 3px solid #345769;
+  }
+  
+  .category-item.active {
+    background-color: #e6ecf1;
+    border-left: 3px solid #345769;
+    font-weight: bold;
+  }
+  
