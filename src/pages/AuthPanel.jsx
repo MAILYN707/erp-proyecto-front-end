@@ -14,7 +14,7 @@ export function AuthPanel() {
                     {activeForm === 'login' ? 'Inicia sesión' : '¡Regístrate ya!'}
                 </h2>
                 <p className='text-center mt-2'>
-                    {activeForm === 'login' ? 'Inicia con tu cuenta SupplyNet.' : 'Sé parte de SupplyNet.'}
+                    {activeForm === 'login' ? 'Ingresa con tu cuenta SupplyNet.' : 'Sé parte de SupplyNet.'}
                 </p>
 
                 <div className="flex border-b mt-8 mb-4">
