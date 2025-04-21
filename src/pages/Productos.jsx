@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { SideBarCategorias } from '../components/SideBarCategorias'
-
+import React, { useEffect } from 'react';
+import { axiosClient } from '../services/axiosClient';
 
 
 export function Productos() {
+    useEffect(() => {
+        axiosClient.get('/empresas')
+            .then(res => console.log(res.data))
+            .catch(err => console.error('Error al obtener empresas:', err));
+    }, []);
 
     return (
         <div className='productos-container'>
@@ -15,8 +21,8 @@ export function Productos() {
             </div>
             <div className='flex justify-end mr-10'>
                 <input type="text"
-                placeholder='Buscar'
-                className='text-white rounded border-2  text-white border-[#749DB1]'
+                    placeholder='Buscar'
+                    className='text-white rounded border-2  text-white border-[#749DB1]'
                 />
             </div>
             <div className="product-page ml-20">
