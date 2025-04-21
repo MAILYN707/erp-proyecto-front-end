@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
 export function Home() {
+
   return (
     <div className="main-container">
       <div id="home-background">

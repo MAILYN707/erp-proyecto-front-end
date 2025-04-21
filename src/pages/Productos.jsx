@@ -3,10 +3,16 @@ import { LabelLocalizacion } from '../components/Productos/LabelLocalizacion';
 import { Buscador } from '../components/Productos/Buscador';
 import { SideBarCategorias } from '../components/Productos/SideBarCategorias';
 import { GridProductos } from '../components/Productos/GridProductos';
-
+import React, { useEffect } from 'react';
+import { axiosClient } from '../services/axiosClient';
 
 
 export function Productos() {
+    useEffect(() => {
+        axiosClient.get('/empresas')
+            .then(res => console.log(res.data))
+            .catch(err => console.error('Error al obtener empresas:', err));
+    }, []);
 
     return (
         <div className="p-6">
