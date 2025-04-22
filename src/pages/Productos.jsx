@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LabelLocalizacion } from '../components/Productos/LabelLocalizacion';
+import { LabelLocalizacion } from '../components/Productos/Localizacion';
 import { Buscador } from '../components/Buscador';
 import { SideBarCategorias } from '../components/Productos/SideBarCategorias';
 import { GridProductos } from '../components/Productos/GridProductos';
