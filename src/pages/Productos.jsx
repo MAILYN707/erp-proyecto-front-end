@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
-import { LabelLocalizacion } from '../components/Productos/LabelLocalizacion';
-import { Buscador } from '../components/Productos/Buscador';
+import React, { useState, useEffect } from 'react';
+import { LabelLocalizacion } from '../components/Productos/Localizacion';
+import { Buscador } from '../components/Buscador';
 import { SideBarCategorias } from '../components/Productos/SideBarCategorias';
 import { GridProductos } from '../components/Productos/GridProductos';
-import { axiosClient } from '../services/axiosClient';
 
 
 export function Productos() {
-    useEffect(() => {
-        axiosClient.get('/productos')
-            .then(res => console.log(res.data))
-            .catch(err => console.error('Error al obtener productos:', err));
-    }, []);
+
+    const [filtroBusqueda, setFiltroBusqueda] = useState('');
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
 
     return (
         <div className="mx-auto px-4 py-12 text-center">
@@ -19,13 +16,22 @@ export function Productos() {
             <div className="p-6 ml-20">
                 <div className="flex justify-between items-center mb-8">
                     <LabelLocalizacion />
-                    <Buscador />
+                    <Buscador
+                        placeholder='Buscar productos...'
+                        valor={filtroBusqueda}
+                        onChange={setFiltroBusqueda}
+                    />
                 </div>
                 <div className="flex gap-6">
-                    <SideBarCategorias />
-
+                    <SideBarCategorias
+                        categoriaSeleccionada={categoriaSeleccionada}
+                        onSelect={setCategoriaSeleccionada}
+                    />
                     <div className="flex-1">
-                        <GridProductos />
+                        <GridProductos
+                            filtroBusqueda={filtroBusqueda}
+                            categoriaSeleccionada={categoriaSeleccionada}
+                        />
                     </div>
                 </div>
             </div>
