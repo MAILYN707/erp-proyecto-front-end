@@ -71,6 +71,7 @@ button:focus-visible {
 @import './navbar.css';
 @import './home.css';
 @import './categorias.css';
+@import './productos.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
 
