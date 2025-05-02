@@ -73,6 +73,7 @@ button:focus-visible {
 @import './categorias.css';
 @import './productos.css';
 @import './proveedores.css';
+@import './leaflet.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
 
