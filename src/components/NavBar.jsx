@@ -22,8 +22,8 @@ export function NavBar() {
             </nav>
 
             <div className="navbar-right">
-                <CubeIcon className="w-5 h-10 text-white" />
-                <FaShoppingCart />
+                <Link to="/tus-pedidos"><CubeIcon className="w-5 h-10 text-white" /></Link>
+                <Link to="/carrito"> <FaShoppingCart /></Link>
                 <FaUser />
             </div>
         </header>
