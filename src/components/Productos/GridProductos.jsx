@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { axiosClient } from '@services/axiosClient'
 
 <<<<<<< Updated upstream
-export function GridProductos({ filtroBusqueda, categoriaSeleccionada }) {
+export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasCercanas }) {
 =======
 export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasCercanas, onProductoClick }) {
 >>>>>>> Stashed changes
@@ -17,14 +17,20 @@ export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasC
   }, []);
 
   const productosFiltrados = productos.filter((p) => {
+    // Filtrar por categoría, nombre y ubicación
     const coincideCategoria =
       categoriaSeleccionada === '' || p.id_categoriaProducto === categoriaSeleccionada;
     const coincideBusqueda =
       filtroBusqueda.trim() === '' || p.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase());
-  
-    return coincideCategoria && coincideBusqueda;
+
+    const coincideUbicacion =
+      !Array.isArray(empresasCercanas) || empresasCercanas.length === 0
+        ? true
+        : empresasCercanas.some(e => e.id_empresa === p.id_empresa);
+
+    return coincideCategoria && coincideBusqueda && coincideUbicacion;
   });
-  
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 pb-8 ml-10">

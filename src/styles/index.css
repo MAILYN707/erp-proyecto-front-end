@@ -78,6 +78,8 @@ button:focus-visible {
 @import './leaflet.css';
 @import './modalproducto.css';
 >>>>>>> Stashed changes
+@import './proveedores.css';
+@import './leaflet.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
 

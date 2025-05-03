@@ -1,0 +1,91 @@
+.card-proveedor {
+  transition: transform 0.3s ease;
+}
+
+.card-proveedor:hover {
+  transform: scale(1.03);
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+.proveedor-card {
+  position: relative;
+  width: 400px;
+  height: 245px;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.proveedor-card:hover {
+  transform: translateY(-4px);
+}
+
+.proveedor-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.4s ease;
+}
+
+.proveedor-card:hover .proveedor-imagen {
+  filter: blur(3px) brightness(0.7);
+}
+
+.proveedor-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.proveedor-card:hover .proveedor-overlay {
+  opacity: 1;
+}
+
+.proveedor-nombre {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.btn-ver-mas {
+  background-color: #345769;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-ver-mas:hover {
+  background-color: #27405a;
+}
