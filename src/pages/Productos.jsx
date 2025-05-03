@@ -5,6 +5,7 @@ import { SideBarCategorias } from '../components/Productos/SideBarCategorias';
 import { GridProductos } from '../components/Productos/GridProductos';
 import { useUbicacion } from '../hooks/useUbicacion';
 import { ModalUbicacion } from '../components/Productos/ModalUbicacion';
+import ModalProductos from '../components/Productos/ModalProductos';
 
 
 export function Productos() {
@@ -12,6 +13,8 @@ export function Productos() {
     const [filtroBusqueda, setFiltroBusqueda] = useState('');
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
     const [modalAbierto, setModalAbierto] = useState(false);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
 
     const {
         ubicacion,
@@ -27,6 +30,12 @@ export function Productos() {
         setRadio(radio);
         setModalAbierto(false);
     };
+
+    const abrirModalProducto = (producto) => {
+        setProductoSeleccionado(producto);
+        setModalAbierto(true);
+    };
+
 
 
     return (
@@ -56,22 +65,24 @@ export function Productos() {
                             filtroBusqueda={filtroBusqueda}
                             categoriaSeleccionada={categoriaSeleccionada}
                             empresasCercanas={empresasCercanas}
+                            onProductoClick={abrirModalProducto}
                         />
 
                     </div>
                 </div>
 
-                {modalAbierto && (
-                    <ModalUbicacion
-                        radio={radio}
-                        ubicacion={ubicacion}
-                        onUbicacionChange={handleCambiarUbicacion}
-                        onClose={() => setModalAbierto(false)}
+                {productoSeleccionado && modalAbierto && (
+                    <ModalProductos
+                        producto={productoSeleccionado}
+                        onClose={() => {
+                            setModalAbierto(false);
+                            setProductoSeleccionado(null);
+                        }}
                     />
                 )}
+
             </div>
         </div>
-
 
     )
 }
