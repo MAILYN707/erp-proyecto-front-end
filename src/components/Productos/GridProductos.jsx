@@ -2,11 +2,7 @@ import { CardProductos } from './CardProductos';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '@services/axiosClient'
 
-<<<<<<< Updated upstream
-export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasCercanas }) {
-=======
 export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasCercanas, onProductoClick }) {
->>>>>>> Stashed changes
   const [productos, setProductos] = useState([]);
 
 

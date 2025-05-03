@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { CubeIcon } from '@heroicons/react/24/solid';
+
+
 import '../styles/navbar.css';
 
 export function NavBar() {
@@ -19,7 +22,7 @@ export function NavBar() {
             </nav>
 
             <div className="navbar-right">
-                <FaLocationDot />
+                <CubeIcon className="w-5 h-10 text-white" />
                 <FaShoppingCart />
                 <FaUser />
             </div>
