@@ -72,6 +72,12 @@ button:focus-visible {
 @import './home.css';
 @import './categorias.css';
 @import './productos.css';
+<<<<<<< Updated upstream
+=======
+@import './proveedores.css';
+@import './leaflet.css';
+@import './modalproducto.css';
+>>>>>>> Stashed changes
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
 
