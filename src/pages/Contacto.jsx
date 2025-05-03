@@ -13,15 +13,9 @@ export function Contacto() {
       <h1 className='text-center font-bold font-playfair text-[45px] eading-none text-[#07484A] mb-10'>Contacto</h1>
 
       <div>
-        <FormularioContacto/>
+        <FormularioContacto />
       </div>
-     
-      <div className="mt-12 flex justify-center space-x-6 text-gray-600 text-xl">
-        <FaFacebookF />
-        <FaLinkedinIn />
-        <FaYoutube />
-        <FaInstagram />
-      </div>
+
     </div>
   );
 }
