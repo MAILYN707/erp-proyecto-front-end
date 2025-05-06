@@ -1,8 +1,10 @@
+import { axiosClient } from '@services/axiosClient';
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useMap } from 'react-leaflet';
 
 // Corrección de íconos default para Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -11,6 +13,19 @@ L.Icon.Default.mergeOptions({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
+
+function CambiarVista({ center }) {
+    const map = useMap();
+
+    useEffect(() => {
+        if (center) {
+            map.setView(center);
+        }
+    }, [center]);
+
+    return null;
+}
 
 export function ModalUbicacion({ ubicacion: ubicacionProp, radio: radioProp, onUbicacionChange, onClose }) {
 
@@ -22,10 +37,39 @@ export function ModalUbicacion({ ubicacion: ubicacionProp, radio: radioProp, onU
         setRadio(radioProp || 50);
     }, [ubicacionProp, radioProp]);
 
+    useEffect(() => {
+        const fetchCoordenadas = async () => {
+            if (ubicacion?.nombre && (!ubicacion.lat || !ubicacion.lng)) {
+                try {
+                    const res = await axiosClient.get('/test-geocoding', {
+                        params: { direccion: `${ubicacion.nombre}, Costa Rica` }
+
+                    });
+
+                    if (res.data?.coordenadas?.lat && res.data?.coordenadas?.lng) {
+                        setUbicacion(prev => ({
+                            ...prev,
+                            lat: res.data.coordenadas.lat,
+                            lng: res.data.coordenadas.lng
+                        }));
+                    } else {
+                        console.warn('No se encontraron coordenadas para la ubicación');
+                    }
+                } catch (error) {
+                    console.error('Error al geocodificar:', error);
+                }
+            }
+        };
+
+        const timeout = setTimeout(fetchCoordenadas, 800);
+        return () => clearTimeout(timeout);
+    }, [ubicacion?.nombre]);
+
     const handleAplicar = () => {
         onUbicacionChange({ ubicacion, radio });
         onClose();
     };
+
 
     return (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
@@ -44,7 +88,7 @@ export function ModalUbicacion({ ubicacion: ubicacionProp, radio: radioProp, onU
                         <input
                             type="text"
                             value={ubicacion?.nombre || ''}
-                            onChange={(e) => setUbicacion({ ...ubicacion, nombre: e.target.value })}
+                            onChange={(e) => setUbicacion({ nombre: e.target.value })} // <<< AQUÍ ESTÁ EL CAMBIO
                             className="w-full pl-8 p-2 border rounded focus:outline-[#345769]"
                         />
                     </div>
@@ -63,23 +107,33 @@ export function ModalUbicacion({ ubicacion: ubicacionProp, radio: radioProp, onU
                     </select>
                 </div>
 
-                {ubicacion?.lat && ubicacion?.lng && (
-                    <div className="mb-4 h-60 rounded overflow-hidden">
-                        <MapContainer
-                            center={[ubicacion.lat, ubicacion.lng]}
-                            zoom={8}
-                            scrollWheelZoom={false}
-                            style={{ height: '100%', width: '100%' }}
-                        >
-                            <TileLayer
-                                attribution='&copy; OpenStreetMap'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker position={[ubicacion.lat, ubicacion.lng]} />
-                            <Circle center={[ubicacion.lat, ubicacion.lng]} radius={radio * 1000} />
-                        </MapContainer>
-                    </div>
-                )}
+                <div className="mb-4 h-60 rounded overflow-hidden relative">
+                    <MapContainer
+                        center={[ubicacion?.lat || 9.7489, ubicacion?.lng || -83.7534]} // fallback: centro de CR
+                        zoom={8}
+                        scrollWheelZoom={false}
+                        style={{ height: '100%', width: '100%' }}
+                    >
+                        {ubicacion?.lat && ubicacion?.lng && (
+                            <>
+                                <CambiarVista center={[ubicacion.lat, ubicacion.lng]} />
+                                <Marker position={[ubicacion.lat, ubicacion.lng]} />
+                                <Circle center={[ubicacion.lat, ubicacion.lng]} radius={radio * 1000} />
+                            </>
+                        )}
+
+                        <TileLayer
+                            attribution='&copy; OpenStreetMap'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                    </MapContainer>
+
+                    {!ubicacion?.lat || !ubicacion?.lng ? (
+                        <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10">
+                            <div className="animate-spin h-10 w-10 border-4 border-t-[#345769] border-gray-200 rounded-full"></div>
+                        </div>
+                    ) : null}
+                </div>
 
                 <button
                     onClick={handleAplicar}

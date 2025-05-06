@@ -9,14 +9,27 @@ export function useUbicacion() {
     // 1. Obtener ubicación actual del navegador
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
-            ({ coords }) => {
-                setUbicacion({ nombre: 'Detectando...', lat: coords.latitude, lng: coords.longitude });
+            async ({ coords }) => {
+                const lat = coords.latitude;
+                const lng = coords.longitude;
+    
+                try {
+                    const res = await axiosClient.get('/test-reverse-geocoding', {
+                        params: { lat, lng }
+                    });
+    
+                    const nombre = res.data?.nombre || 'Ubicación actual';
+                    setUbicacion({ nombre, lat, lng });
+    
+                } catch (error) {
+                    console.error('Error obteniendo nombre de ubicación:', error);
+                    setUbicacion({ nombre: 'Ubicación detectada', lat, lng });
+                }
             },
             (err) => console.error('Error obteniendo ubicación:', err),
             { enableHighAccuracy: true }
         );
     }, []);
-
     // 2. Llamar a la API cuando cambia ubicación o radio
     useEffect(() => {
         if (ubicacion) {

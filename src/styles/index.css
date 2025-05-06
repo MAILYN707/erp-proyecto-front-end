@@ -74,6 +74,7 @@ button:focus-visible {
 @import './productos.css';
 @import './proveedores.css';
 @import './leaflet.css';
+@import './modalUbicacion.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
 
