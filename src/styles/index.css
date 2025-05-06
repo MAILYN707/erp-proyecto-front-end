@@ -73,7 +73,6 @@ button:focus-visible {
 @import './categorias.css';
 @import './productos.css';
 @import './proveedores.css';
-@import './leaflet.css';
 @import './modalUbicacion.css';
 @import './modalproducto.css';
 
