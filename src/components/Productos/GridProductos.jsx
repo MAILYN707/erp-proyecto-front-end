@@ -2,15 +2,18 @@ import { CardProductos } from './CardProductos';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '@services/axiosClient'
 
-export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasCercanas, onProductoClick }) {
+export function GridProductos({ filtroBusqueda, categoriaSeleccionada, productosPorUbicacion, onProductoClick }) {
   const [productos, setProductos] = useState([]);
 
-
   useEffect(() => {
-    axiosClient.get('/productos')
-      .then(res => setProductos(res.data.data))
-      .catch(err => console.error('Error al obtener productos:', err));
-  }, []);
+    if (productosPorUbicacion) {
+      setProductos(productosPorUbicacion);
+    } else {
+      axiosClient.get('/productos')
+        .then(res => setProductos(res.data.data))
+        .catch(err => console.error('Error al obtener productos:', err));
+    }
+  }, [productosPorUbicacion]);
 
   const productosFiltrados = productos.filter((p) => {
     // Filtrar por categoría, nombre y ubicación
@@ -19,12 +22,8 @@ export function GridProductos({ filtroBusqueda, categoriaSeleccionada, empresasC
     const coincideBusqueda =
       filtroBusqueda.trim() === '' || p.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase());
 
-    const coincideUbicacion =
-      !Array.isArray(empresasCercanas) || empresasCercanas.length === 0
-        ? true
-        : empresasCercanas.some(e => e.id_empresa === p.id_empresa);
-
-    return coincideCategoria && coincideBusqueda && coincideUbicacion;
+    
+    return coincideCategoria && coincideBusqueda;
   });
 
 

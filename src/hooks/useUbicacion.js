@@ -12,17 +12,24 @@ export function useUbicacion() {
             async ({ coords }) => {
                 const lat = coords.latitude;
                 const lng = coords.longitude;
-    
+
                 try {
-                    const res = await axiosClient.get('/test-reverse-geocoding', {
-                        params: { lat, lng }
-                    });
-    
-                    const nombre = res.data?.nombre || 'Ubicación actual';
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
+                    const data = await res.json();
+
+                    const address = data.address;
+
+                    const distrito = address?.suburb || address?.hamlet || address?.neighbourhood || '';
+                    const canton = address?.city || address?.town || address?.village || '';
+                    const provincia = address?.state || '';
+
+                    const partes = [distrito, canton].filter(Boolean);
+                    const nombre = partes.length > 0 ? partes.join(', ') : provincia || 'Ubicación actual';
+
+
                     setUbicacion({ nombre, lat, lng });
-    
                 } catch (error) {
-                    console.error('Error obteniendo nombre de ubicación:', error);
+                    console.error('Error usando Nominatim:', error);
                     setUbicacion({ nombre: 'Ubicación detectada', lat, lng });
                 }
             },
@@ -30,9 +37,10 @@ export function useUbicacion() {
             { enableHighAccuracy: true }
         );
     }, []);
+
     // 2. Llamar a la API cuando cambia ubicación o radio
     useEffect(() => {
-        if (ubicacion) {
+        if (ubicacion?.lat && ubicacion?.lng) {
             axiosClient
                 .get(`/empresas/cercanas`, {
                     params: { lat: ubicacion.lat, lng: ubicacion.lng, radio },
@@ -48,5 +56,5 @@ export function useUbicacion() {
         setUbicacion,
         setRadio,
         empresas,
-      };
+    };
 }
