@@ -82,7 +82,7 @@ export function ModalUbicacion({ ubicacion: ubicacionProp, radio: radioProp, onU
                 <h2 className="text-xl font-bold mb-4">Cambiar ubicación</h2>
 
                 <div className="mb-4 text-start">
-                    <label className="text-sm font-medium text-gray-600 mb-1 block">Buscar por ciudad, localidad o código postal</label>
+                    <label className="text-sm font-medium text-gray-600 mb-1 block">Buscar por provincia, ciudad o localidad</label>
                     <div className="relative">
                         <FaMapMarkerAlt className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#345769]" />
                         <input
