@@ -5,6 +5,7 @@ import { SideBarCategorias } from '../components/Productos/SideBarCategorias';
 import { GridProductos } from '../components/Productos/GridProductos';
 import { useUbicacion } from '../hooks/useUbicacion';
 import { ModalUbicacion } from '../components/Productos/ModalUbicacion';
+import ModalProductos from '../components/Productos/ModalProductos';
 import { axiosClient } from '@services/axiosClient'
 
 
@@ -13,7 +14,9 @@ export function Productos() {
     const [filtroBusqueda, setFiltroBusqueda] = useState('');
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
     const [productosPorUbicacion, setProductosPorUbicacion] = useState(null);
-    const [modalAbierto, setModalAbierto] = useState(false);
+    const [modalAbierto, setModalAbierto] = useState(null);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
 
     const {
         ubicacion,
@@ -44,6 +47,12 @@ export function Productos() {
         }
     };
 
+    const abrirModalProducto = (producto) => {
+        setProductoSeleccionado(producto);
+        setModalAbierto('producto');
+    };
+
+
 
     return (
         <div className="mx-auto px-4 py-12 text-center">
@@ -53,7 +62,7 @@ export function Productos() {
                     <Localizacion
                         ubicacion={ubicacion}
                         radio={radio}
-                        onOpenModal={() => setModalAbierto(true)}
+                        onOpenModal={() => setModalAbierto('ubicacion')}
                     />
 
                     <Buscador
@@ -72,6 +81,7 @@ export function Productos() {
                             filtroBusqueda={filtroBusqueda}
                             categoriaSeleccionada={categoriaSeleccionada}
                             empresasCercanas={empresasCercanas}
+                            onProductoClick={abrirModalProducto}
                             productosPorUbicacion={productosPorUbicacion}
                         />
 
@@ -79,17 +89,27 @@ export function Productos() {
                     </div>
                 </div>
 
-                {modalAbierto && (
+                {modalAbierto === 'ubicacion' && (
                     <ModalUbicacion
                         radio={radio}
                         ubicacion={ubicacion}
+                        empresasCercanas={empresasCercanas}
                         onUbicacionChange={handleCambiarUbicacion}
-                        onClose={() => setModalAbierto(false)}
+                        onClose={() => setModalAbierto(null)}
+                    />
+                )}
+
+                {modalAbierto === 'producto' && productoSeleccionado && (
+                    <ModalProductos
+                        producto={productoSeleccionado}
+                        onClose={() => {
+                            setModalAbierto(null);
+                            setProductoSeleccionado(null);
+                        }}
                     />
                 )}
             </div>
         </div>
-
 
     )
 }

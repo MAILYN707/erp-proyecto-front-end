@@ -24,7 +24,7 @@ export function SobreNosotros() {
         <div className="px-4 text-center">
             <h1 className='text-center font-bold font-playfair text-[45px] eading-none text-[#07484A] mt-12'>¿Quiénes Somos?</h1>
             <p className="max-w-2xl mx-auto text-[#000000] mt-8 mb-10 text-[15px] font-semibold">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum, eos nesciunt ex deserunt laudantium veniam. At ullam beatae fugit saepe? Hic id molestiae accusamus, enim quam placeat eveniet deserunt voluptatibus!
+                Somos un comercio digital que conecta a los consumidores con productos de calidad, ofreciendo una experiencia de compra única y personalizada. Nuestro objetivo es facilitar el acceso a productos innovadores y brindar un servicio excepcional a nuestros clientes.
             </p>
             <Acordeon title="Acerca de nuestro comercio digital" items={items} />
         </div>

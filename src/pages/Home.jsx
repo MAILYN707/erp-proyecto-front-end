@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 
 export function Home() {
 
@@ -12,7 +12,9 @@ export function Home() {
           <p>
             Encuentra proveedores confiables cerca de tu empresa, gestiona tus compras y haz seguimiento con un solo clic.
           </p>
-          <button className="explore-button">Explora proveedores</button>
+          <Link to="/Proveedores">
+            <button className="explore-button">Explora proveedores</button>
+          </Link>
         </div>
       </div>
     </div>

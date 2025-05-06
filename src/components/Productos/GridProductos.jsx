@@ -2,7 +2,7 @@ import { CardProductos } from './CardProductos';
 import { useEffect, useState } from 'react';
 import { axiosClient } from '@services/axiosClient'
 
-export function GridProductos({ filtroBusqueda, categoriaSeleccionada, productosPorUbicacion }) {
+export function GridProductos({ filtroBusqueda, categoriaSeleccionada, productosPorUbicacion, onProductoClick }) {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,9 @@ export function GridProductos({ filtroBusqueda, categoriaSeleccionada, productos
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 pb-8 ml-10">
       {productosFiltrados.map((producto) => (
-        <CardProductos key={producto.id_producto} producto={producto} />
+        <div key={producto.id_producto} onClick={() => onProductoClick(producto)} className="cursor-pointer">
+          <CardProductos producto={producto} />
+        </div>
       ))}
     </div>
 
