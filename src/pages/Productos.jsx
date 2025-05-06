@@ -12,7 +12,7 @@ export function Productos() {
 
     const [filtroBusqueda, setFiltroBusqueda] = useState('');
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-    const [modalAbierto, setModalAbierto] = useState(false);
+    const [modalAbierto, setModalAbierto] = useState(null);
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
 
@@ -33,7 +33,7 @@ export function Productos() {
 
     const abrirModalProducto = (producto) => {
         setProductoSeleccionado(producto);
-        setModalAbierto(true);
+        setModalAbierto('producto');
     };
 
 
@@ -46,7 +46,7 @@ export function Productos() {
                     <Localizacion
                         ubicacion={ubicacion}
                         radio={radio}
-                        onOpenModal={() => setModalAbierto(true)}
+                        onOpenModal={() => setModalAbierto('ubicacion')}
                     />
 
                     <Buscador
@@ -71,16 +71,25 @@ export function Productos() {
                     </div>
                 </div>
 
-                {productoSeleccionado && modalAbierto && (
+                {modalAbierto === 'ubicacion' && (
+                    <ModalUbicacion
+                        radio={radio}
+                        ubicacion={ubicacion}
+                        empresasCercanas={empresasCercanas}
+                        onUbicacionChange={handleCambiarUbicacion}
+                        onClose={() => setModalAbierto(null)}
+                    />
+                )}
+
+                {modalAbierto === 'producto' && productoSeleccionado && (
                     <ModalProductos
                         producto={productoSeleccionado}
                         onClose={() => {
-                            setModalAbierto(false);
+                            setModalAbierto(null);
                             setProductoSeleccionado(null);
                         }}
                     />
                 )}
-
             </div>
         </div>
 
