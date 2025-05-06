@@ -16,12 +16,7 @@ export function Contacto() {
         <FormularioContacto/>
       </div>
      
-      <div className="mt-12 flex justify-center space-x-6 text-gray-600 text-xl">
-        <FaFacebookF />
-        <FaLinkedinIn />
-        <FaYoutube />
-        <FaInstagram />
-      </div>
+     
     </div>
   );
 }
