@@ -16,7 +16,7 @@ export function UserDropdown() {
         onClick={toggleDropdown}
         className="text-white focus:outline-none flex items-center justify-center w-8 h-8 hover:bg-white hover:bg-opacity-20 rounded-full transition"
       >
-        <FaUser className="w-4 h-4" />
+        <FaUser className="w-4 h-4" title="Tu perfil" />
       </button>
 
       {open && (
