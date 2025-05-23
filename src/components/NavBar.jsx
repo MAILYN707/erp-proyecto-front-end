@@ -22,9 +22,9 @@ export function NavBar() {
             </nav>
 
             <div className="navbar-right">
-                <Link to="/tus-pedidos"><CubeIcon className="w-5 h-10 text-white" /></Link>
-                <Link to="/carrito"> <FaShoppingCart /></Link>
-                <UserDropdown />
+                <Link to="/tus-pedidos" title="Tus pedidos"><CubeIcon className="w-5 h-10 text-white" /></Link>
+                <Link to="/carrito" title="Carrito de compras"> <FaShoppingCart /></Link>
+                <UserDropdown title="Tu perfil" />
             </div>
         </header>
     );

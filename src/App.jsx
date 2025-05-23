@@ -4,7 +4,7 @@ import { ProtectedRoute } from '@components/routes/ProtectedRoute';
 import { useUser } from './components/UserContext';
 import { Spinner } from './components/Spinner'; //
 //import { PublicRoute } from './components/routes/PublicRoute';
-import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, PasarelaPago } from './pages';
+import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, PasarelaPago, ListaEmpresasPendientes, ListaEmpresasAprobadas } from './pages';
 import { Layout } from '@components/Layout';
 
 
@@ -35,6 +35,8 @@ function MainApp() {
           <Route path="/pago" element={
             <ProtectedRoute><PasarelaPago /></ProtectedRoute>
           } />
+            <Route path="/empresas-pendientes" element={<ListaEmpresasPendientes />} />
+            <Route path="/empresas-aprobadas" element={<ListaEmpresasAprobadas/>} />
         </Route>
 
         <Route path="/authenticate" element={<AuthPanel />} />
