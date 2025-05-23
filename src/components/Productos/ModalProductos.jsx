@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
-import { carritoService } from '@services/carritoService';
 import { useUser } from '@components/UserContext';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { carritoService } from '@services/carritoService';
 
 
 export default function ModalProducto({ producto, onClose }) {
@@ -26,17 +26,15 @@ export default function ModalProducto({ producto, onClose }) {
       return;
     }
 
-    carritoService.agregar({
-      id_producto: producto.id_producto,
-      cantidad
-    })
-      .then(() => {
-        toast.success('Producto agregado al carrito');
-        onClose();
-      })
-      .catch(() => toast.error('Error al agregar al carrito'));
+    try {
+      carritoService.agregar(producto, cantidad);
+      toast.success('Producto agregado al carrito');
+      onClose();
+    } catch (error) {
+      toast.error('Error al agregar al carrito');
+    }
   };
-  
+
   const imagen = imagenes[imagenIndex]?.url
     ? `http://localhost:8000/storage/${imagenes[imagenIndex].url}`
     : '/images/placeholder.jpg';
