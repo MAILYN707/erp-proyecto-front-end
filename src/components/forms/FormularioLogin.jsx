@@ -22,6 +22,7 @@ export function FormLogin() {
       await login(credenciales);
       navigate('/');
     } catch (err) {
+      console.error(err);
       setError('Credenciales incorrectas o usuario no encontrado.');
     }
   };
@@ -36,6 +37,7 @@ export function FormLogin() {
         placeholder="Correo electrónico"
         value={credenciales.correo}
         onChange={handleChange}
+        required
         className="w-full border rounded px-3 py-2"
       />
 
@@ -46,6 +48,7 @@ export function FormLogin() {
           placeholder="Contraseña"
           value={credenciales.password}
           onChange={handleChange}
+          required
           className="w-full border rounded px-3 py-2 pr-10"
         />
         <span

@@ -8,19 +8,14 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const login = async (credenciales) => {
-    // Paso 1: Enviar login
     const res = await axiosClient.post('/login', credenciales);
-
-    // Paso 2: Guardar token
     const token = res.data.data.token;
-    localStorage.setItem('token', token);
 
-    // Paso 3: Adjuntar token para futuras peticiones
+    localStorage.setItem('token', token);
     axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-    // Paso 4: Obtener info del usuario
-    const meRes = await axiosClient.get('/me');
-    setUsuario(meRes.data.data);
+    const me = await axiosClient.get('/me');
+    setUsuario(me.data.data);
   };
 
   const logout = async () => {
@@ -40,14 +35,13 @@ export function UserProvider({ children }) {
       axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axiosClient.get('/me')
         .then(res => setUsuario(res.data.data))
-        .catch(() => {
-          logout();
-        })
+        .catch(() => logout())
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
   }, []);
+
 
   return (
     <UserContext.Provider value={{ usuario, login, logout, loading }}>
