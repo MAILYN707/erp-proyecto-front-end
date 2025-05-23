@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormularioDireccion from '../components/PasarelaPago/FormularioDireccion';
 import MetodoPagoTarjeta from '../components/PasarelaPago/MetodoPago';
 import BotonPago from '../components/PasarelaPago//BotonPago';

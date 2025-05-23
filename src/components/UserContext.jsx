@@ -4,53 +4,56 @@ import { axiosClient } from '@services/axiosClient';
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-    const [usuario, setUsuario] = useState(null);
-    const [loading, setLoading] = useState(true); // 
+  const [usuario, setUsuario] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const login = async (credenciales) => {
-        const res = await axiosClient.post('/login', credenciales);
-        const token = res.data.token;
+  const login = async (credenciales) => {
+    // Paso 1: Enviar login
+    const res = await axiosClient.post('/login', credenciales);
 
-        localStorage.setItem('token', token);
-        axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    // Paso 2: Guardar token
+    const token = res.data.data.token;
+    localStorage.setItem('token', token);
 
-        const userRes = await axiosClient.get('/me');
-        setUsuario(userRes.data);
-    };
+    // Paso 3: Adjuntar token para futuras peticiones
+    axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-    const logout = async () => {
-        try {
-            await axiosClient.post('/logout');
-        } catch (_) {
-            
-        }
-        localStorage.removeItem('token');
-        delete axiosClient.defaults.headers.common['Authorization'];
-        setUsuario(null);
-    };
+    // Paso 4: Obtener info del usuario
+    const meRes = await axiosClient.get('/me');
+    setUsuario(meRes.data.data);
+  };
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            axiosClient.get('/me')
-                .then(res => setUsuario(res.data))
-                .catch(() => {
-                    localStorage.removeItem('token');
-                    delete axiosClient.defaults.headers.common['Authorization'];
-                    setUsuario(null);
-                })
-                .finally(() => setLoading(false));
-        } else {
-            setLoading(false);
-        }
-    }, []);
+  const logout = async () => {
+    try {
+      await axiosClient.post('/logout');
+    } catch (e) {
+      console.error('Error cerrando sesión:', e);
+    }
+    localStorage.removeItem('token');
+    delete axiosClient.defaults.headers.common['Authorization'];
+    setUsuario(null);
+  };
 
-    return (
-        <UserContext.Provider value={{ usuario, login, logout, loading }}>
-            {children}
-        </UserContext.Provider>
-    );
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axiosClient.get('/me')
+        .then(res => setUsuario(res.data.data))
+        .catch(() => {
+          logout();
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ usuario, login, logout, loading }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export const useUser = () => useContext(UserContext);
