@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
+import { useUser } from '@components/UserContext';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { carritoService } from '@services/carritoService';
+
 
 export default function ModalProducto({ producto, onClose }) {
   const [cantidad, setCantidad] = useState(1);
@@ -11,6 +16,24 @@ export default function ModalProducto({ producto, onClose }) {
 
   const siguienteImagen = () => setImagenIndex(i => (i + 1) % imagenes.length);
   const anteriorImagen = () => setImagenIndex(i => (i - 1 + imagenes.length) % imagenes.length);
+
+  const { usuario } = useUser();
+  const navigate = useNavigate();
+
+  const handleAgregar = () => {
+    if (!usuario) {
+      navigate('/authenticate');
+      return;
+    }
+
+    try {
+      carritoService.agregar(producto, cantidad);
+      toast.success('Producto agregado al carrito');
+      onClose();
+    } catch (error) {
+      toast.error('Error al agregar al carrito');
+    }
+  };
 
   const imagen = imagenes[imagenIndex]?.url
     ? `http://localhost:8000/storage/${imagenes[imagenIndex].url}`
@@ -65,7 +88,7 @@ export default function ModalProducto({ producto, onClose }) {
                 <span className="text-sm">Cantidad: {cantidad}</span>
                 <button onClick={incrementar} className="px-3 py-1 border rounded">+</button>
               </div>
-              <button className="flex items-center justify-center gap-2 w-full bg-[#07484A] text-white py-2 rounded hover:bg-[#066060] transition-colors">
+              <button onClick={handleAgregar} className="flex items-center justify-center gap-2 w-full bg-[#07484A] text-white py-2 rounded hover:bg-[#066060] transition-colors">
                 <ShoppingCart className="w-5 h-5" />
                 Añadir al carrito
               </button>
