@@ -7,12 +7,13 @@ export function ListaEmpresasAprobadas() {
     const [error, setError] = useState(null);
     const [modalEmpresa, setModalEmpresa] = useState(null);
     const [accionEnProceso, setAccionEnProceso] = useState(false);
+    const [busqueda, setBusqueda] = useState('');
 
     const obtenerEmpresas = async () => {
         try {
             const response = await axiosClient.get('/empresas');
-            const empresasPendientes = response.data.data.filter(emp => emp.estado === 'Aprobada');
-            setEmpresas(empresasPendientes);
+            const empresasAprobadas = response.data.data.filter(emp => emp.estado === 'Aprobada');
+            setEmpresas(empresasAprobadas);
             setLoading(false);
         } catch (err) {
             setError('Error al cargar las empresas');
@@ -36,7 +37,9 @@ export function ListaEmpresasAprobadas() {
         }
     };
 
-
+    const empresasFiltradas = empresas.filter(empresa =>
+        empresa.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    );
 
     if (loading) return <div className="text-center mt-10">Cargando empresas...</div>;
     if (error) return <div className="text-center text-red-500 mt-10">{error}</div>;
@@ -44,6 +47,16 @@ export function ListaEmpresasAprobadas() {
     return (
         <div className="mx-auto px-4 py-12">
             <h1 className='text-center font-bold text-[35px] text-[#07484A] mb-10'>Lista de Empresas Aprobadas</h1>
+
+            <div className="flex justify-end mb-4">
+                <input
+                    type="text"
+                    placeholder="🔎 Buscar por nombre"
+                    value={busqueda}
+                    onChange={e => setBusqueda(e.target.value)}
+                    className="border px-4 py-2 rounded shadow-sm"
+                />
+            </div>
 
             <div className="overflow-x-auto">
                 <table className="min-w-full table-auto border-collapse border border-gray-300">
@@ -57,14 +70,15 @@ export function ListaEmpresasAprobadas() {
                         </tr>
                     </thead>
                     <tbody>
-                        {empresas.map((empresa) => (
+                        {empresasFiltradas.map((empresa) => (
                             <tr key={empresa.id_empresa} className="text-center border-b">
                                 <td className="px-4 py-2">{empresa.nombre}</td>
                                 <td className="px-4 py-2">{empresa.cedula_juridica}</td>
                                 <td className="px-4 py-2">{empresa.tipo}</td>
                                 <td className="px-4 py-2">{empresa.fecha_registro}</td>
                                 <td className="px-4 py-2 space-x-2">
-                                    <button onClick={() => abrirDetalles(empresa.id_empresa)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">Detalles</button>                                </td>
+                                    <button onClick={() => abrirDetalles(empresa.id_empresa)} className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">Detalles</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

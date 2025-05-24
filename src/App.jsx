@@ -2,7 +2,7 @@ import { Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './components/UserContext';
 //import { ProtectedRoute } from './components/routes/ProtectedRoute';
 //import { PublicRoute } from './components/routes/PublicRoute';
-import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, ListaEmpresasPendientes, ListaEmpresasAprobadas } from './pages';
+import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, ListaEmpresasPendientes, ListaEmpresasAprobadas, ListaUsuarios } from './pages';
 import { Layout } from './components/Layout';
 
 
@@ -23,6 +23,7 @@ function App() {
             <Route path="/tus-pedidos" element={<TusPedidos />} />
             <Route path="/empresas-pendientes" element={<ListaEmpresasPendientes />} />
             <Route path="/empresas-aprobadas" element={<ListaEmpresasAprobadas/>} />
+            <Route path="/usuarios" element={<ListaUsuarios />} />
           </Route>
 
           <Route path="/authenticate" element={<AuthPanel />} />
