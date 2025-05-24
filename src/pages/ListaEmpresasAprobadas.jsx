@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '@services/axiosClient';
+import { Buscador } from '../components/Buscador';
 
 export function ListaEmpresasAprobadas() {
     const [empresas, setEmpresas] = useState([]);
@@ -49,15 +50,13 @@ export function ListaEmpresasAprobadas() {
             <h1 className='text-center font-bold text-[35px] text-[#07484A] mb-10'>Lista de Empresas Aprobadas</h1>
 
             <div className="flex justify-end mb-4">
-                <input
-                    type="text"
-                    placeholder="🔎 Buscar por nombre"
-                    value={busqueda}
-                    onChange={e => setBusqueda(e.target.value)}
-                    className="border px-4 py-2 rounded shadow-sm"
+                <Buscador
+                    placeholder="Buscar por nombre"
+                    valor={busqueda}
+                    onChange={setBusqueda}
                 />
             </div>
-
+            
             <div className="overflow-x-auto">
                 <table className="min-w-full table-auto border-collapse border border-gray-300">
                     <thead className="bg-[#3C6E71] text-white">

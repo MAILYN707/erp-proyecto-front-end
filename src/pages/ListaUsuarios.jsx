@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { axiosClient } from '@services/axiosClient';
+import { Buscador } from '../components/Buscador';
 
 export function ListaUsuarios() {
     const [usuarios, setUsuarios] = useState([]);
@@ -63,12 +64,10 @@ export function ListaUsuarios() {
             <h1 className='text-center font-bold text-[35px] text-[#07484A] mb-10'>Lista de Usuarios</h1>
 
             <div className="flex justify-end mb-4">
-                <input
-                    type="text"
-                    placeholder="🔎 Buscar por nombre"
-                    value={busqueda}
-                    onChange={e => setBusqueda(e.target.value)}
-                    className="border px-4 py-2 rounded shadow-sm"
+                <Buscador
+                    placeholder="Buscar por nombre"
+                    valor={busqueda}
+                    onChange={setBusqueda}
                 />
             </div>
 
@@ -112,7 +111,7 @@ export function ListaUsuarios() {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-lg max-w-md w-full">
                         <h2 className="text-lg font-bold mb-4 text-gray-800">Confirmación</h2>
-                        <p className="mb-6">Estás seguro que deseas eliminar este usuario?</p>
+                        <p className="mb-6">¿Estás seguro que deseas eliminar este usuario?</p>
                         <div className="flex justify-end gap-4">
                             <button onClick={() => setConfirmarAccion(null)} className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
                             <button
