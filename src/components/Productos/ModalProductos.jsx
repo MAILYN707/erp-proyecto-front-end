@@ -36,8 +36,8 @@ export default function ModalProducto({ producto, onClose }) {
   };
 
   const imagen = imagenes[imagenIndex]?.url
-    ? `http://localhost:8000/storage/${imagenes[imagenIndex].url}`
-    : '/images/placeholder.jpg';
+  ?? `https://erp-proyecto-back-end.onrender.com/storage/${imagenes[imagenIndex]?.imagen}`
+  ?? '/images/placeholder.jpg';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-poppins">

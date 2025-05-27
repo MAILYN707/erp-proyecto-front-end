@@ -10,6 +10,7 @@ export function FormRegistro() {
     nombre: '',
     correo: '',
     tipo: '',
+    telefono: '',
     provincia: '',
     canton: '',
     distrito: '',
@@ -33,7 +34,7 @@ export function FormRegistro() {
       await axiosClient.post('/empresas', {
         cedula_juridica: form.cedula_juridica,
         nombre: form.nombre,
-        tipo: form.correo,
+        correo: form.correo,
         tipo: form.tipo,
         telefono: form.telefono,
         provincia: form.provincia,
@@ -85,7 +86,7 @@ export function FormRegistro() {
       {errores.nombre && (
         <p className="text-red-500 text-sm">{errores.nombre[0]}</p>
       )}
-      <input name="correo" type="email" placeholder="Correo de Empresa" className="w-full border rounded px-3 py-2" onChange={handleChange} required/>
+      <input name="correo" type="email" placeholder="Correo de Empresa" className="w-full border rounded px-3 py-2" onChange={handleChange}/>
       {errores.correo && (
         <p className="text-red-500 text-sm">{errores.correo[0]}</p>
       )}

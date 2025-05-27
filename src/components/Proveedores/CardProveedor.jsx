@@ -1,6 +1,6 @@
 export function CardProveedor({ proveedor, onOpen }) {
   const logo = proveedor.logoEmpresa
-    ? `http://localhost:8000/storage/${proveedor.logoEmpresa}`
+    ? `https://erp-proyecto-back-end.onrender.com/storage/${proveedor.logoEmpresa?.[0]?.imagen}`
     : '/images/placeholder.jpg';
 
   return (
