@@ -1,17 +1,7 @@
-import {
-  FaUser,
-  FaSignInAlt,
-  FaSignOutAlt,
-  FaClipboardList,
-  FaPlusSquare,
-  FaBoxOpen,
-  FaTruck,
-  FaBuilding
-} from 'react-icons/fa';
+import { FaUser, FaSignInAlt, FaSignOutAlt, FaClipboardList } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useUser } from '@components/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 export function UserDropdown() {
   const { usuario, logout } = useUser();
@@ -20,7 +10,6 @@ export function UserDropdown() {
   const toggleDropdown = () => setOpen(!open);
   const closeDropdown = () => setOpen(false);
 
-  const navigate = useNavigate();
   return (
     <div className="relative">
       <button
@@ -43,7 +32,7 @@ export function UserDropdown() {
             {!usuario ? (
               <Link
                 to="/authenticate"
-                className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition "
+                className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition"
                 onClick={closeDropdown}
               >
                 <FaSignInAlt className="text-lg" /> Iniciar sesión
@@ -51,38 +40,16 @@ export function UserDropdown() {
             ) : (
               <>
                 <Link
-                  to="/publicar"
-                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition "
+                  to="/tus-pedidos"
+                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 transition"
                   onClick={closeDropdown}
                 >
-                  <FaPlusSquare /> Publicar producto
-                </Link>
-                <Link
-                  to="/mis-productos"
-                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition"
-                  onClick={closeDropdown}
-                >
-                  <FaBoxOpen /> Mis productos
-                </Link>
-                <Link
-                  to="/encargos"
-                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition"
-                  onClick={closeDropdown}
-                >
-                  <FaTruck /> Encargos
-                </Link>
-                <Link
-                  to="/perfil-empresa"
-                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition"
-                  onClick={closeDropdown}
-                >
-                  <FaBuilding /> Perfil de empresa
+                  <FaClipboardList /> Mis pedidos
                 </Link>
                 <button
                   onClick={() => {
                     logout();
                     closeDropdown();
-                    navigate('/authenticate');
                   }}
                   className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 w-full transition"
                 >
