@@ -43,7 +43,7 @@ export function UserDropdown() {
             {!usuario ? (
               <Link
                 to="/authenticate"
-                className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition"
+                className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition "
                 onClick={closeDropdown}
               >
                 <FaSignInAlt className="text-lg" /> Iniciar sesión
@@ -52,7 +52,7 @@ export function UserDropdown() {
               <>
                 <Link
                   to="/publicar"
-                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition"
+                  className="flex items-center gap-3 px-4 py-3 text-[#345769] hover:bg-gray-100 font-medium transition "
                   onClick={closeDropdown}
                 >
                   <FaPlusSquare /> Publicar producto

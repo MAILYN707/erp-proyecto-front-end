@@ -41,7 +41,7 @@ export default function ModalProducto({ producto, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-poppins">
-      <div className="relative w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
+      <div className="relative w-full max-w-5xl bg-white rounded-lg shadow-lg p-6 animate-fadeIn">
         {/* Barra superior personalizada */}
         <div className="absolute top-0 left-0 right-0 h-6 rounded-t-lg" style={{ backgroundColor: '#345769' }} />
         <button
