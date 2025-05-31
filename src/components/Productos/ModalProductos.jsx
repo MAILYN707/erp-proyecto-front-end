@@ -20,7 +20,7 @@ export default function ModalProducto({ producto, onClose }) {
   const { usuario } = useUser();
   const navigate = useNavigate();
 
-  const handleAgregar = () => {
+  const handleAgregar = async () => {
     if (!usuario) {
       navigate('/authenticate');
       return;
@@ -28,6 +28,7 @@ export default function ModalProducto({ producto, onClose }) {
 
     try {
       carritoService.agregar(producto, cantidad);
+      await carritoService.guardarEnBackend();
       toast.success('Producto agregado al carrito');
       onClose();
     } catch (error) {
