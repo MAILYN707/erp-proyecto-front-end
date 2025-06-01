@@ -27,6 +27,8 @@ export function UserProvider({ children }) {
     localStorage.removeItem('token');
     delete axiosClient.defaults.headers.common['Authorization'];
     setUsuario(null);
+    window.location.href = "/authenticate"; 
+
   };
 
   useEffect(() => {
