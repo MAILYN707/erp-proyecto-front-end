@@ -58,6 +58,7 @@ function MainApp() {
             <>
               <Route path="/admin/empresas-pendientes" element={<ListaEmpresasPendientes />} />
               <Route path="/admin/empresas-aprobadas" element={<ListaEmpresasAprobadas />} />
+               <Route path="admin/usuarios" element={<ListaUsuarios />} />
               {/* <Route path="/admin/usuarios" element={<ListaUsuarios />} /> */}
             </>
           )}
