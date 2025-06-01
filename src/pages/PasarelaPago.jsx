@@ -1,59 +1,20 @@
 import { useEffect, useState } from 'react';
 import FormularioDireccion from '../components/PasarelaPago/FormularioDireccion';
 import MetodoPagoTarjeta from '../components/PasarelaPago/MetodoPago';
-import BotonPago from '../components/PasarelaPago/BotonPago';
-import { carritoService } from '../services/carritoService';
-import { useUser } from '../components/UserContext';
-import { axiosClient } from '../services/axiosClient';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import BotonPago from '../components/PasarelaPago//BotonPago';
 
 export function PasarelaPago() {
   const [formData, setFormData] = useState({ direccion: '', telefono: '', email: '' });
   const [pagoData, setPagoData] = useState({ numero: '', expiracion: '', codigo: '' });
-  const [carrito, setCarrito] = useState([]);
-  const { usuario } = useUser();
-  const navigate = useNavigate();
 
-  const handleSubmit = async () => {
-    if (!usuario || !usuario.id_empresa) {
-      toast.error('No se pudo identificar al usuario o su empresa');
-      return;
-    }
-
-    if (!formData.direccion || !formData.telefono || !formData.email) {
-      toast.warning('Por favor completa todos los campos de dirección');
-      return;
-    }
-
-
-    try {
-      const respuesta = await axiosClient.post(`/empresas/${usuario.id_empresa}/facturas`, {
-        direccion_entrega: formData.direccion
-      });
-
-      toast.success('Factura generada con éxito');
-
-      // Limpia el carrito local
-      localStorage.removeItem('carrito');
-      setCarrito([]);
-
-      navigate('/productos');
-
-    } catch (error) {
-      console.error('Error al generar factura:', error);
-      toast.error('Hubo un problema al procesar la factura');
-    }
+  const handleSubmit = () => {
+    // Lógica para validar y enviar datos
+    console.log('Enviar datos:', { formData, pagoData });
   };
-
-
   useEffect(() => {
-    try {
-      const datos = carritoService.obtener();
-      setCarrito(datos);
-    } catch (error) {
-      console.error('Error al obtener el carrito:', error);
-    }
+    carritoService.obtener()
+      .then(res => setCarrito(res.data))
+      .catch(() => toast.error('No se pudo cargar el carrito'));
   }, []);
 
   return (
@@ -72,19 +33,18 @@ export function PasarelaPago() {
             <div key={item.id} className="flex items-center justify-between border-b py-2">
               <div className="flex items-center gap-2">
                 <img
-                  src={`https://erp-proyecto-back-end.onrender.com/storage/${item.imagen}`}
-                  alt={item.nombre}
+                  src={`http://localhost:8000/storage/${item.producto.imagen}`}
+                  alt={item.producto.nombre}
                   className="w-14 h-14 object-cover rounded"
                 />
                 <div>
-                  <p className="font-medium">{item.nombre}</p>
+                  <p className="font-medium">{item.producto.nombre}</p>
                   <p className="text-xs text-gray-500">Cant: {item.cantidad}</p>
                 </div>
               </div>
-              <p className="font-bold text-[#345769]">₡{item.precio.toLocaleString('es-CR')}</p>
+              <p className="font-bold text-[#345769]">₡{item.producto.precio}</p>
             </div>
           ))}
-          
         </div>
       </div>
 

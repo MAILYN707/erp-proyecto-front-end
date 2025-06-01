@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useUser, UserProvider } from './components/UserContext';
 import { Spinner } from './components/Spinner';
-import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, PasarelaPago, ListaEmpresasPendientes, ListaEmpresasAprobadas, ListaUsuarios } from './pages';
-import { Layout } from './components/Layout';
 
+import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, PasarelaPago, ListaEmpresasPendientes, ListaEmpresasAprobadas } from './pages';
+import { Layout } from '@components/Layout';
 
 
 function App() {
@@ -29,6 +29,7 @@ function MainApp() {
   }
   return (
       <Routes>
+
         {/* Layout general para todas las vistas */}
         <Route path="/" element={<Layout />}>
 
@@ -63,7 +64,6 @@ function MainApp() {
 
           {/* Si intenta acceder a cualquier ruta no permitida */}
           <Route path="*" element={<Navigate to={rol === 'Administrador' ? "/admin/empresas-pendientes" : "/"} />} />
-
         </Route>
 
         {/* Ruta de autenticación accesible para todos */}
