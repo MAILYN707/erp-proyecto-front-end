@@ -2,7 +2,7 @@ export function ModalProveedor({ proveedor, onClose }) {
   if (!proveedor) return null;
 
   const logo = proveedor.logoEmpresa
-    ? `http://localhost:8000/storage/${proveedor.logoEmpresa}`
+    ? `http://localhost:8000/storage/logos_empresas/${proveedor.logoEmpresa}`
     : '/images/placeholder.jpg';
 
   return (
