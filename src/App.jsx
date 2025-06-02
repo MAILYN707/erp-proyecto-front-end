@@ -17,7 +17,8 @@ import {
   ListaEmpresasAprobadas,
   PerfilEmpresa,
   Encargos,
-  PublicarProducto
+  PublicarProducto,
+  MisProductos
 } from './pages';
 
 import { Layout } from '@components/Layout';
@@ -96,6 +97,7 @@ function MainApp() {
             <Route path="/perfil-empresa" element={<PerfilEmpresa />} />
             <Route path="/encargos" element={<Encargos />} />
             <Route path="/publicar" element={<PublicarProducto />} />
+            <Route path="/mis-productos" element={<MisProductos />} />
           </>
         )}
 

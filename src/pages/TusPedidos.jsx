@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { BarraSeguimiento } from "../components/BarraSeguimiento.jsx";
-import { Spinner } from "../components/Spinner.jsx"; // ✅ Importar el spinner
+import { Spinner } from "../components/Spinner.jsx"; 
 import { axiosClient } from '../services/axiosClient.js';
 
 export function TusPedidos({ pedido }) {
   const [mostrarTracking, setMostrarTracking] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // ✅ Estado de carga simulado
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     // Simulamos carga artificial mientras llega el pedido
-    const timer = setTimeout(() => setIsLoading(false), 1500); // podés ajustar el tiempo si querés
+    const timer = setTimeout(() => setIsLoading(false), 1500); 
 
     return () => clearTimeout(timer);
   }, []);
