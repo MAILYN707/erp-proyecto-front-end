@@ -27,14 +27,14 @@ export default function ModalProducto({ producto, onClose }) {
 
     try {
       carritoService.agregar(producto, cantidad);
-      toast.success('✅ Producto agregado al carrito');
+      toast.success('Producto agregado al carrito');
 
       // Esperar 2 segundos antes de cerrar el modal
       setTimeout(() => {
         onClose();
       }, 2000);
     } catch (error) {
-      toast.error('❌ Error al agregar al carrito');
+      toast.error('Error al agregar al carrito');
     }
   };
 
