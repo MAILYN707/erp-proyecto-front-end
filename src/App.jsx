@@ -70,7 +70,10 @@ function MainApp() {
 
   return (
     <Routes>
+      {/* Layout general para todas las vistas */}
       <Route path="/" element={<Layout />}>
+
+        {/* Rutas públicas: accesibles para todos menos admin */}
         {(rol !== 'Administrador') && (
           <>
             <Route index element={<Home />} />
@@ -81,6 +84,7 @@ function MainApp() {
           </>
         )}
 
+        {/* Rutas para Empresa autenticada */}
         {(rol === 'Empresa') && (
           <>
             <Route path="/carrito" element={<Carrito />} />
@@ -89,19 +93,23 @@ function MainApp() {
           </>
         )}
 
+        {/* Rutas para Administrador */}
         {(rol === 'Administrador') && (
           <>
             <Route path="/admin/empresas-pendientes" element={<ListaEmpresasPendientes />} />
             <Route path="/admin/empresas-aprobadas" element={<ListaEmpresasAprobadas />} />
+            {/* <Route path="/admin/usuarios" element={<ListaUsuarios />} /> */}
           </>
         )}
 
+        {/* Si intenta acceder a cualquier ruta no permitida */}
         <Route
           path="*"
           element={<Navigate to={rol === 'Administrador' ? '/admin/empresas-pendientes' : '/'} />}
         />
       </Route>
 
+      {/* Ruta de autenticación accesible para todos */}
       <Route path="/authenticate" element={<AuthPanel />} />
     </Routes>
   );
