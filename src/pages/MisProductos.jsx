@@ -58,7 +58,7 @@ export function MisProductos() {
                                 <th className="px-4 py-2">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody className="text-gray-800">
+                        <tbody className="text-gray-800 bg-[#F6F6F6]">
                             {productos.map((producto) => (
                                 <tr key={producto.id_producto} className="border-b hover:bg-gray-100">
                                     <td className="py-2">{producto.id_producto}</td>

@@ -1,20 +1,14 @@
 import { GridProveedores } from '../components/Proveedores/GridProveedores';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Buscador } from '../components/Buscador';
-import { Spinner } from '../components/Spinner'; // ✅ Import del spinner
+import { Spinner } from '../components/Spinner';
+import { useCachedFetch } from '@hooks/useCachedFetch';
 
 export function Proveedores() {
   const [filtroBusqueda, setFiltroBusqueda] = useState('');
-  const [loading, setLoading] = useState(true); // ✅ Estado de carga
+  const { data: proveedores, loading } = useCachedFetch('/empresas', 'proveedores');
 
-  useEffect(() => {
-    const temporizador = setTimeout(() => {
-      setLoading(false);
-    }, 2000); // Ajustá si querés que dure más o menos
-    return () => clearTimeout(temporizador);
-  }, []);
-
-  if (loading) return <Spinner />; // ✅ Mostrar spinner mientras carga
+  if (loading) return <Spinner mensaje="Cargando proveedores..." />;
 
   return (
     <div className="mx-auto px-4 py-12 text-center">
@@ -30,6 +24,7 @@ export function Proveedores() {
         <div className="w-full flex justify-center">
           <GridProveedores
             filtroBusqueda={filtroBusqueda}
+            proveedores={proveedores} // 👈 importante pasar esto
           />
         </div>
       </div>

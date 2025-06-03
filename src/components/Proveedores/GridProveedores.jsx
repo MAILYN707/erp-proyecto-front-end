@@ -1,17 +1,9 @@
-import { useEffect, useState } from 'react';
-import { axiosClient } from '../../services/axiosClient';
 import { CardProveedor } from './CardProveedor';
 import { ModalProveedor } from './ModalProveedor';
+import { useState } from 'react';
 
-export function GridProveedores({filtroBusqueda}) {
-  const [proveedores, setProveedores] = useState([]);
+export function GridProveedores({ filtroBusqueda, proveedores }) {
   const [proveedorSeleccionado, setProveedorSeleccionado] = useState(null);
-
-  useEffect(() => {
-    axiosClient.get('/empresas')
-      .then(res => setProveedores(res.data.data))
-      .catch(err => console.error('Error al obtener proveedores:', err));
-  }, []);
 
   const proveedoresFiltrados = proveedores.filter(p =>
     p.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase())
@@ -29,14 +21,13 @@ export function GridProveedores({filtroBusqueda}) {
         ))}
       </div>
 
-        {/* Modal */}
-        {proveedorSeleccionado && (
+      {/* Modal */}
+      {proveedorSeleccionado && (
         <ModalProveedor
           proveedor={proveedorSeleccionado}
           onClose={() => setProveedorSeleccionado(null)}
         />
       )}
     </div>
-
   );
 }
