@@ -6,7 +6,8 @@ import { Spinner } from './components/Spinner'; //
 //import { PublicRoute } from './components/routes/PublicRoute';
 import { Home, Productos, Proveedores, SobreNosotros, Contacto, AuthPanel, Carrito, TusPedidos, PasarelaPago, ListaEmpresasPendientes, ListaEmpresasAprobadas, ListaUsuarios } from './pages';
 import { Layout } from './components/Layout';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -42,6 +43,19 @@ function MainApp() {
 
         <Route path="/authenticate" element={<AuthPanel />} />
       </Routes>
+
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </BrowserRouter>
   );
 }
