@@ -1,84 +1,141 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { axiosClient } from "@services/axiosClient";
+import { ModalModificarEstado } from "@components/Encargos/ModalModificarEstado";
+import { ModalDetalleEncargo } from "@components/Encargos/ModalDetalleEncargo";
+import { Spinner } from "@components/Spinner";
+
 
 export function Encargos() {
     const [encargos, setEncargos] = useState([]);
+    const [encargoSeleccionado, setEncargoSeleccionado] = useState(null);
+    const [modalEstadoAbierto, setModalEstadoAbierto] = useState(false);
+    const [modalDetalleAbierto, setModalDetalleAbierto] = useState(false);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
+        const cargarDesdeLocal = () => {
+            const cache = localStorage.getItem("encargos_cache");
+            if (cache) {
+                try {
+                    setEncargos(JSON.parse(cache));
+                    setLoading(false); // mostrar de inmediato
+                } catch {
+                    // si falla el parse, simplemente seguimos sin cargarlo
+                }
+            }
+        };
+
         const obtenerEncargos = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("/api/mis-pedidos", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    }
+                const response = await axiosClient.get("/pedidos-recibidos", {
+                    headers: { Authorization: `Bearer ${token}` }
                 });
-                
+
+                const data = response.data?.data || [];
+                setEncargos(data);
+                localStorage.setItem("encargos_cache", JSON.stringify(data));
             } catch (error) {
                 console.error("Error al cargar los encargos:", error);
+            } finally {
+                setLoading(false);
             }
         };
+
+        cargarDesdeLocal();
         obtenerEncargos();
     }, []);
 
-    const modificarEstado = async (id) => {
+    const actualizarListado = async () => {
         try {
             const token = localStorage.getItem("token");
-            await axios.patch(`/api/pedidos/${id}/estado`, { estado: "En proceso" }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const response = await axiosClient.get("/pedidos-recibidos", {
+                headers: { Authorization: `Bearer ${token}` }
             });
-            alert("Estado actualizado");
+            const data = response.data?.data || [];
+            setEncargos(data);
+            localStorage.setItem("encargos_cache", JSON.stringify(data));
         } catch (error) {
-            console.error("Error modificando estado:", error);
+            console.error("Error actualizando listado:", error);
         }
     };
+    const actualizarEstadoLocal = (idFactura, nuevoEstado) => {
+        const actualizado = encargos.map(e => {
+            if (e.id_factura === idFactura && e.pedidos?.length) {
+                return {
+                    ...e,
+                    pedidos: [{ ...e.pedidos[0], estado: nuevoEstado }]
+                };
+            }
+            return e;
+        });
 
-    const verDetalles = (id) => {
-        window.location.href = `/encargos/${id}`;
+        setEncargos(actualizado);
+        localStorage.setItem("encargos_cache", JSON.stringify(actualizado));
     };
 
+
+    if (loading) return <Spinner mensaje="Cargando encargos..." />;
+
+
     return (
-        <div className="p-8 ">
+        <div className="p-8">
             <h1 className='text-center font-bold font-playfair text-[45px] leading-none text-[#07484A] mb-10'>Encargos recibidos</h1>
             <div className="overflow-x-auto shadow-lg rounded-lg bg-white">
                 <table className="min-w-full table-auto">
-                    <thead className="bg-[#788CA6] text-black font-playfair ">
+                    <thead className="bg-[#788CA6] text-black font-playfair text-center">
                         <tr>
-                            <th className="px-4 py-3 text-left">Código</th>
-                            <th className="px-4 py-3 text-left">Cliente</th>
-                            <th className="px-4 py-3 text-left">Fecha</th>
-                            <th className="px-4 py-3 text-left">Estado</th>
-                            <th className="px-4 py-3 text-left">Acciones</th>
+                            <th className="px-4 py-3 text-center">Código</th>
+                            <th className="px-4 py-3 text-center">Fecha</th>
+                            <th className="px-4 py-3 text-center">Cliente</th>
+                            <th className="px-4 py-3 text-center">Estado</th>
+                            <th className="px-4 py-3 text-center">Dirección</th>
+                            <th className="px-4 py-3 text-center">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody className="text-gray-800">
-                        {encargos.map((encargo) => (
-                            <tr key={encargo.id} className="border-b hover:bg-gray-100">
-                                <td className="px-4 py-3">{encargo.id}</td>
-                                <td className="px-4 py-3">{encargo.cliente?.nombre || '—'}</td>
-                                <td className="px-4 py-3">{new Date(encargo.fecha).toLocaleDateString()}</td>
-                                <td className="px-4 py-3">{encargo.estado}</td>
-                                <td className="px-4 py-3 flex gap-2">
+
+                    <tbody className="text-gray-800 text-center bg-[#F6F6F6]">
+                        {Array.isArray(encargos) && encargos.map((encargo) => (
+                            <tr key={encargo.id || encargo.id_pedido || Math.random()}>
+                                <td className="px-4 py-3">{encargo.id_factura || '—'}</td>
+                                <td className="px-4 py-3">
+                                    {encargo.fecha_emision ? new Date(encargo.fecha_emision).toLocaleDateString() : '—'}
+                                </td>
+                                <td className="px-4 py-3">{encargo.comprador?.nombre || '—'}</td>
+
+
+                                <td className="px-4 py-3">{encargo.pedidos?.[0]?.estado || '—'}</td>
+                                <td className="px-4 py-3 text-center">
+                                    {encargo.pedidos?.[0]?.direccion_entrega || '—'}
+                                </td>
+                                <td className="px-4 py-3 flex gap-2 justify-center">
                                     <button
-                                        onClick={() => modificarEstado(encargo.id)}
-                                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm"
+                                        onClick={() => {
+                                            setEncargoSeleccionado(encargo);
+                                            setModalEstadoAbierto(true);
+                                        }}
+                                        className="bg-[#64866D] hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm font-bold"
                                     >
                                         Modificar estado
                                     </button>
                                     <button
-                                        onClick={() => verDetalles(encargo.id)}
-                                        className="bg-sky-700 hover:bg-sky-800 text-white px-3 py-1 rounded text-sm"
+                                        onClick={() => {
+                                            setEncargoSeleccionado(encargo);
+                                            setModalDetalleAbierto(true);
+                                        }}
+                                        className="bg-[#B7BB65] hover:bg-[#93974a] text-white px-3 py-2 rounded text-sm font-bold"
                                     >
                                         Ver más
                                     </button>
                                 </td>
                             </tr>
                         ))}
-                        {encargos.length === 0 && (
+
+
+                        {Array.isArray(encargos) && encargos.length === 0 && (
                             <tr>
-                                <td colSpan="5" className="px-4 py-6 text-center text-gray-500">
+                                <td colSpan="6" className="px-4 py-6 text-center text-gray-500">
                                     No hay encargos registrados.
                                 </td>
                             </tr>
@@ -86,6 +143,22 @@ export function Encargos() {
                     </tbody>
                 </table>
             </div>
+
+
+            {modalEstadoAbierto && (
+                <ModalModificarEstado
+                    encargo={encargoSeleccionado}
+                    onClose={() => setModalEstadoAbierto(false)}
+                    onEstadoActualizado={actualizarEstadoLocal}
+                />
+            )}
+
+            {modalDetalleAbierto && (
+                <ModalDetalleEncargo
+                    encargo={encargoSeleccionado}
+                    onClose={() => setModalDetalleAbierto(false)}
+                />
+            )}
         </div>
     );
 }

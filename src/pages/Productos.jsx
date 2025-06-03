@@ -7,7 +7,7 @@ import { useUbicacion } from '../hooks/useUbicacion';
 import { ModalUbicacion } from '../components/Productos/ModalUbicacion';
 import ModalProductos from '../components/Productos/ModalProductos';
 import { axiosClient } from '@services/axiosClient';
-import { Spinner } from '../components/Spinner'; // Ajustá ruta si es diferente
+import { Spinner } from '../components/Spinner'; 
 
 export function Productos() {
   const [filtroBusqueda, setFiltroBusqueda] = useState('');
@@ -15,7 +15,7 @@ export function Productos() {
   const [productosPorUbicacion, setProductosPorUbicacion] = useState(null);
   const [modalAbierto, setModalAbierto] = useState(null);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
-  const [loading, setLoading] = useState(true); // ⬅️ estado para mostrar el spinner
+  const [loading, setLoading] = useState(true); 
 
   const {
     ubicacion,
