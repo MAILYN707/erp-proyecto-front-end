@@ -1,7 +1,7 @@
 export function CardProductos({ producto }) {
   const imagen =
     producto.imagenes?.[0]?.url ??
-    `https://erp-proyecto-back-end.onrender.com/storage/${producto.imagenes?.[0]?.imagen}` ??
+    `https://erp-proyecto-back-end.onrender.com/storage/logos_empresas${producto.imagenes?.[0]?.imagen}` ??
     '/images/placeholder.jpg';
 
   return (

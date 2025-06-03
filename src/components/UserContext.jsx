@@ -4,8 +4,13 @@ import { axiosClient } from '@services/axiosClient';
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const [usuario, setUsuario] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // Carga desde localStorage al iniciar la app
+  const [usuario, setUsuario] = useState(() => {
+    const guardado = localStorage.getItem('usuario');
+    return guardado ? JSON.parse(guardado) : null;
+  });
+
+  const [loading, setLoading] = useState(!usuario); // solo carga si no hay usuario local
 
   const login = async (credenciales) => {
     const res = await axiosClient.post('/login', credenciales);
@@ -16,6 +21,7 @@ export function UserProvider({ children }) {
 
     const me = await axiosClient.get('/me');
     setUsuario(me.data.data);
+    localStorage.setItem('usuario', JSON.stringify(me.data.data)); // ⬅️ cache usuario
   };
 
   const logout = async () => {
@@ -24,29 +30,40 @@ export function UserProvider({ children }) {
     } catch (e) {
       console.error('Error cerrando sesión:', e);
     }
+
     localStorage.removeItem('token');
+    localStorage.removeItem('usuario'); // ⬅️ eliminamos cache también
     delete axiosClient.defaults.headers.common['Authorization'];
     setUsuario(null);
-    window.location.href = "/authenticate"; 
-
+    window.location.href = "/authenticate";
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     if (token) {
       axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      axiosClient.get('/me')
-        .then(res => setUsuario(res.data.data))
-        .catch(() => logout())
-        .finally(() => setLoading(false));
+
+      // solo si no tenemos usuario cargado desde cache
+      if (!usuario) {
+        axiosClient.get('/me')
+          .then(res => {
+            setUsuario(res.data.data);
+            localStorage.setItem('usuario', JSON.stringify(res.data.data)); // cache actualizado
+          })
+          .catch(() => logout())
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(false);
+      }
+
     } else {
       setLoading(false);
     }
   }, []);
 
-
   return (
-    <UserContext.Provider value={{ usuario, login, logout, loading }}>
+    <UserContext.Provider value={{ usuario, setUsuario, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );

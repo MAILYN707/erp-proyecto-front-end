@@ -14,7 +14,11 @@ import {
   TusPedidos,
   PasarelaPago,
   ListaEmpresasPendientes,
-  ListaEmpresasAprobadas
+  ListaEmpresasAprobadas,
+  PerfilEmpresa,
+  Encargos,
+  PublicarProducto,
+  MisProductos
 } from './pages';
 
 import { Layout } from '@components/Layout';
@@ -90,6 +94,10 @@ function MainApp() {
             <Route path="/carrito" element={<Carrito />} />
             <Route path="/tus-pedidos" element={<TusPedidos />} />
             <Route path="/pago" element={<PasarelaPago />} />
+            <Route path="/perfil-empresa" element={<PerfilEmpresa />} />
+            <Route path="/encargos" element={<Encargos />} />
+            <Route path="/publicar" element={<PublicarProducto />} />
+            <Route path="/mis-productos" element={<MisProductos />} />
           </>
         )}
 
