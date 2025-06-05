@@ -77,7 +77,7 @@ export function MisProductos() {
                     </table>
 
                     {productos.length === 0 && (
-                        <p className="text-center text-gray-600 mt-4">No tenés productos registrados.</p>
+                        <p className="text-center text-gray-600 mt-4 mb-5">No hay productos registrados.</p>
                     )}
                 </div>
             </div>
