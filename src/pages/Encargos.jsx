@@ -14,18 +14,7 @@ export function Encargos() {
 
 
     useEffect(() => {
-        const cargarDesdeLocal = () => {
-            const cache = localStorage.getItem("encargos_cache");
-            if (cache) {
-                try {
-                    setEncargos(JSON.parse(cache));
-                    setLoading(false); // mostrar de inmediato
-                } catch {
-                    // si falla el parse, simplemente seguimos sin cargarlo
-                }
-            }
-        };
-
+      
         const obtenerEncargos = async () => {
             try {
                 const token = localStorage.getItem("token");
@@ -35,7 +24,6 @@ export function Encargos() {
 
                 const data = response.data?.data || [];
                 setEncargos(data);
-                localStorage.setItem("encargos_cache", JSON.stringify(data));
             } catch (error) {
                 console.error("Error al cargar los encargos:", error);
             } finally {
@@ -43,23 +31,11 @@ export function Encargos() {
             }
         };
 
-        cargarDesdeLocal();
+       
         obtenerEncargos();
     }, []);
 
-    const actualizarListado = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            const response = await axiosClient.get("/pedidos-recibidos", {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const data = response.data?.data || [];
-            setEncargos(data);
-            localStorage.setItem("encargos_cache", JSON.stringify(data));
-        } catch (error) {
-            console.error("Error actualizando listado:", error);
-        }
-    };
+   
     const actualizarEstadoLocal = (idFactura, nuevoEstado) => {
         const actualizado = encargos.map(e => {
             if (e.id_factura === idFactura && e.pedidos?.length) {
@@ -72,7 +48,7 @@ export function Encargos() {
         });
 
         setEncargos(actualizado);
-        localStorage.setItem("encargos_cache", JSON.stringify(actualizado));
+        
     };
 
 

@@ -104,8 +104,6 @@ export function PerfilEmpresa() {
                                 <img
                                     src={vistaPrevia}
                                     alt=""
-                                    onLoadStart={() => setImagenCargando(true)}
-                                    onLoad={() => setImagenCargando(false)}
                                     className="object-cover w-full h-full"
                                 />
                             ) : (
