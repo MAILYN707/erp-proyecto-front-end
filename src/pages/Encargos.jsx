@@ -96,42 +96,48 @@ export function Encargos() {
                     </thead>
 
                     <tbody className="text-gray-800 text-center bg-[#F6F6F6]">
-                        {Array.isArray(encargos) && encargos.map((encargo) => (
-                            <tr key={encargo.id || encargo.id_pedido || Math.random()}>
-                                <td className="px-4 py-3">{encargo.id_factura || '—'}</td>
-                                <td className="px-4 py-3">
-                                    {encargo.fecha_emision ? new Date(encargo.fecha_emision).toLocaleDateString() : '—'}
-                                </td>
-                                <td className="px-4 py-3">{encargo.comprador?.nombre || '—'}</td>
+                        {Array.isArray(encargos) && encargos.map((encargo) => {
+                            const estadoActual = encargo.pedidos?.[0]?.estado;
+                            const esEntregado = estadoActual === "Entregado";
 
-
-                                <td className="px-4 py-3">{encargo.pedidos?.[0]?.estado || '—'}</td>
-                                <td className="px-4 py-3 text-center">
-                                    {encargo.pedidos?.[0]?.direccion_entrega || '—'}
-                                </td>
-                                <td className="px-4 py-3 flex gap-2 justify-center">
-                                    <button
-                                        onClick={() => {
-                                            setEncargoSeleccionado(encargo);
-                                            setModalEstadoAbierto(true);
-                                        }}
-                                        className="bg-[#64866D] hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm font-bold"
-                                    >
-                                        Modificar estado
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setEncargoSeleccionado(encargo);
-                                            setModalDetalleAbierto(true);
-                                        }}
-                                        className="bg-[#B7BB65] hover:bg-[#93974a] text-white px-3 py-2 rounded text-sm font-bold"
-                                    >
-                                        Ver más
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-
+                            return (
+                                <tr key={encargo.id_factura}>
+                                    <td className="px-4 py-3">{encargo.id_factura || '—'}</td>
+                                    <td className="px-4 py-3">
+                                        {encargo.fecha_emision ? new Date(encargo.fecha_emision).toLocaleDateString() : '—'}
+                                    </td>
+                                    <td className="px-4 py-3">{encargo.comprador?.nombre || '—'}</td>
+                                    <td className={`px-4 py-3 ${esEntregado ? 'text-green-700 font-bold' : ''}`}>
+                                        {estadoActual || '—'}
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                        {encargo.pedidos?.[0]?.direccion_entrega || '—'}
+                                    </td>
+                                    <td className="px-4 py-3 flex gap-2 justify-center">
+                                        {!esEntregado && (
+                                            <button
+                                                onClick={() => {
+                                                    setEncargoSeleccionado(encargo);
+                                                    setModalEstadoAbierto(true);
+                                                }}
+                                                className="bg-[#64866D] hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm font-bold"
+                                            >
+                                                Modificar estado
+                                            </button>
+                                        )}
+                                        <button
+                                            onClick={() => {
+                                                setEncargoSeleccionado(encargo);
+                                                setModalDetalleAbierto(true);
+                                            }}
+                                            className="bg-[#B7BB65] hover:bg-[#93974a] text-white px-3 py-2 rounded text-sm font-bold"
+                                        >
+                                            Ver más
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        })}
 
                         {Array.isArray(encargos) && encargos.length === 0 && (
                             <tr>
