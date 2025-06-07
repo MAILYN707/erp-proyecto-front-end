@@ -10,3 +10,7 @@ export const axiosClient = axios.create({
   },
   withCredentials: false,
 });
+
+if (token) {
+  axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
