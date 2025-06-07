@@ -5,20 +5,19 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { carritoService } from '@services/carritoService';
 
-
 export default function ModalProducto({ producto, onClose }) {
   const [cantidad, setCantidad] = useState(1);
   const imagenes = producto.imagenes || [];
   const [imagenIndex, setImagenIndex] = useState(0);
+
+  const { usuario } = useUser();
+  const navigate = useNavigate();
 
   const incrementar = () => setCantidad(c => c + 1);
   const decrementar = () => setCantidad(c => (c > 1 ? c - 1 : 1));
 
   const siguienteImagen = () => setImagenIndex(i => (i + 1) % imagenes.length);
   const anteriorImagen = () => setImagenIndex(i => (i - 1 + imagenes.length) % imagenes.length);
-
-  const { usuario } = useUser();
-  const navigate = useNavigate();
 
   const handleAgregar = async () => {
     if (!usuario) {
@@ -28,21 +27,24 @@ export default function ModalProducto({ producto, onClose }) {
 
     try {
       carritoService.agregar(producto, cantidad);
-      await carritoService.guardarEnBackend();
       toast.success('Producto agregado al carrito');
-      onClose();
+
+      // Esperar 2 segundos antes de cerrar el modal
+      setTimeout(() => {
+        onClose();
+      }, 2000);
     } catch (error) {
       toast.error('Error al agregar al carrito');
     }
   };
 
   const imagen = imagenes[imagenIndex]?.url
-    ? `http://localhost:8000/storage/${imagenes[imagenIndex].url}`
-    : '/images/placeholder.jpg';
+    ?? `https://erp-proyecto-back-end.onrender.com/storage/${imagenes[imagenIndex]?.imagen}`
+    ?? '/images/placeholder.jpg';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-poppins">
-      <div className="relative w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
+      <div className="relative w-full max-w-5xl bg-white rounded-lg shadow-lg p-6 animate-fadeIn">
         {/* Barra superior personalizada */}
         <div className="absolute top-0 left-0 right-0 h-6 rounded-t-lg" style={{ backgroundColor: '#345769' }} />
         <button
@@ -53,7 +55,7 @@ export default function ModalProducto({ producto, onClose }) {
         </button>
 
         <div className="flex flex-col md:flex-row gap-6 mt-6">
-          {/* Lado izquierdo: Imagen + texto alineado a la izquierda */}
+          {/* Lado izquierdo: Imagen + info */}
           <div className="w-full md:w-2/3 flex flex-col">
             <div className="relative w-full h-[280px] border rounded flex justify-center items-center">
               <button
@@ -79,7 +81,7 @@ export default function ModalProducto({ producto, onClose }) {
             </div>
           </div>
 
-          {/* Lado derecho: precio + cantidad + carrito */}
+          {/* Lado derecho: precio + cantidad + botón */}
           <div className="w-full md:w-1/3 flex flex-col justify-end">
             <div className="p-4 border rounded-lg">
               <p className="text-xl font-bold text-center mb-4">₡ {producto.precio.toLocaleString()}</p>

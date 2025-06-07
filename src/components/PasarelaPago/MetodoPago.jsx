@@ -16,14 +16,14 @@ export default function MetodoPagoTarjeta({ pagoData, setPagoData }) {
         onChange={(e) => setPagoData({ ...pagoData, numero: e.target.value })}
       />
       <div className="grid grid-cols-2 gap-4">
-        <input required
+        <input
           type="text"
           placeholder="MM/AA"
           className="p-2 border rounded"
           value={pagoData.expiracion}
           onChange={(e) => setPagoData({ ...pagoData, expiracion: e.target.value })}
         />
-        <input required
+        <input
           type="text"
           placeholder="3 dígitos"
           className="p-2 border rounded"
