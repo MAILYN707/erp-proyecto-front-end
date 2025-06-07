@@ -22,18 +22,19 @@ export function GridProductos({ filtroBusqueda, categoriaSeleccionada, productos
     const coincideBusqueda =
       filtroBusqueda.trim() === '' || p.nombre.toLowerCase().includes(filtroBusqueda.toLowerCase());
 
-
+    
     return coincideCategoria && coincideBusqueda;
   });
 
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 px-4 pb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 pb-8 ml-10">
       {productosFiltrados.map((producto) => (
-        <div key={producto.id_producto} onClick={() => onProductoClick(producto)}>
+        <div key={producto.id_producto} onClick={() => onProductoClick(producto)} className="cursor-pointer">
           <CardProductos producto={producto} />
         </div>
       ))}
     </div>
+
   );
 }
