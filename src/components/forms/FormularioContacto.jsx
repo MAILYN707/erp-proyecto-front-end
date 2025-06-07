@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { axiosClient } from '@services/axiosClient';
 
 export function FormularioContacto() {
@@ -26,20 +26,20 @@ export function FormularioContacto() {
       !formData.correo.trim() ||
       !formData.mensaje.trim()
     ) {
-      toast.error('Todos los campos son obligatorios');
+      toast.error('❌ Todos los campos son obligatorios');
       return;
     }
 
     try {
       const response = await axiosClient.post('/contacto/enviar', formData);
 
-      toast.success('Mensaje enviado correctamente');
+      toast.success('✅ Mensaje enviado correctamente');
       setFormData({ nombre: '', apellidos: '', correo: '', mensaje: '' });
     } catch (error) {
       const mensaje =
         error.response?.data?.message ||
         error.message ||
-        'Error al enviar el mensaje';
+        '❌ Error al enviar el mensaje';
       toast.error(`❌ ${mensaje}`);
     }
   };

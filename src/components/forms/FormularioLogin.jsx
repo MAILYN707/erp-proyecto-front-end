@@ -64,6 +64,7 @@ export function FormLogin() {
           <input type="checkbox" className="mr-1" />
           Recordarme
         </label>
+        <a href="#" className="text-[#345769] hover:underline">Olvidé mi contraseña</a>
       </div>
 
       <button type="submit" className="w-full bg-[#345769] text-white py-2 rounded font-semibold hover:bg-[#2b475a]">
